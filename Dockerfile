@@ -1,20 +1,20 @@
-# Use an official Node runtime as a parent image
-FROM node:14-alpine
+# Production stage
+FROM node:lts-alpine AS production
 
-# Set the working directory to /app
+# Set the working directory inside the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json to the working directory
+# Copy the package.json and package-lock.json files into the container
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci
+# Install only production dependencies
+RUN npm install --production
 
-# Copy the rest of the application code to the working directory
+# Copy the rest of your code into the container
 COPY . .
 
-# Expose port 3000 for the app to listen on
-EXPOSE 3000
+# Build your Next.js project for production
+RUN npm run build
 
-# Set the command to run when the container starts
-CMD [ "npm", "run", "start:dev" ]
+# Set the command to start the production server
+CMD ["npm", "start"]

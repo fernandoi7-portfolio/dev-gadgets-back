@@ -20,7 +20,7 @@ describe('AppController', () => {
   const mockPrismaService = {
     user: {
       findMany: () =>
-        new Promise((resolve, reject) => {
+        new Promise((resolve) => {
           resolve(defaultMock);
         }),
     },
@@ -42,7 +42,7 @@ describe('AppController', () => {
   });
 
   describe('root', () => {
-    it('should return "Hello World!"', async () => {
+    it('should return default mocked response', async () => {
       const result = await appController.getHello();
       expect(result).toBe(defaultMock);
     });
