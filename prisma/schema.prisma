@@ -10,7 +10,7 @@ generator client {
 
 // Auth schema
 model User {
-  id              Int      @id @default(autoincrement())
+  id              String   @id @unique @default(uuid())
   name            String
   email           String   @unique
   password        String
@@ -23,8 +23,8 @@ model User {
 }
 
 model LoginAttempt {
-  id          Int      @id @default(autoincrement())
-  user_id     Int
+  id          String   @id @unique @default(uuid())
+  user_id     String
   success     Boolean
   ip_address  String?
   user_agent  String?
@@ -34,12 +34,12 @@ model LoginAttempt {
 
 // Tasks schema
 model Task {
-  id           Int      @id @default(autoincrement())
+  id           String   @unique @default(uuid())
   title        String
   description  String?
   created_at   DateTime @default(now())
   updated_at   DateTime?
   completed_at DateTime?
-  user_id      Int
+  user_id      String
   user         User     @relation(fields: [user_id], references: [id])
 }

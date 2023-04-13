@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE "User" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
@@ -14,8 +14,8 @@ CREATE TABLE "User" (
 
 -- CreateTable
 CREATE TABLE "LoginAttempt" (
-    "id" SERIAL NOT NULL,
-    "user_id" INTEGER NOT NULL,
+    "id" TEXT NOT NULL,
+    "user_id" TEXT NOT NULL,
     "success" BOOLEAN NOT NULL,
     "ip_address" TEXT,
     "user_agent" TEXT,
@@ -26,19 +26,26 @@ CREATE TABLE "LoginAttempt" (
 
 -- CreateTable
 CREATE TABLE "Task" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "description" TEXT,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3),
     "completed_at" TIMESTAMP(3),
-    "user_id" INTEGER NOT NULL,
-
-    CONSTRAINT "Task_pkey" PRIMARY KEY ("id")
+    "user_id" TEXT NOT NULL
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "User_id_key" ON "User"("id");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "LoginAttempt_id_key" ON "LoginAttempt"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Task_id_key" ON "Task"("id");
 
 -- AddForeignKey
 ALTER TABLE "LoginAttempt" ADD CONSTRAINT "LoginAttempt_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
